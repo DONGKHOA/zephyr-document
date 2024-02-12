@@ -46,7 +46,13 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="tutorial_zephyr_install.html">MỘT SỐ HƯỞNG DẪN VỀ ZEPHYR PROJECT - ZEPHYR OS</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">LVGL</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LVGL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#yeu-cau-ve-phan-cung">Yêu cầu về phần cứng</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cai-dat-phan-mem-squareline-studio">Cài đặt phần mềm SquareLine Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#su-dung-phan-mem-squareline-studio">Sử dụng phần mềm SquareLine Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#them-source-code-moi-vao-project">Thêm source code mới vào project</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -75,6 +81,64 @@
              
   <section id="lvgl">
 <h1>LVGL<a class="headerlink" href="#lvgl" title="Link to this heading"></a></h1>
+<section id="yeu-cau-ve-phan-cung">
+<h2>Yêu cầu về phần cứng<a class="headerlink" href="#yeu-cau-ve-phan-cung" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Hướng dẫn này được chạy trên board STM32F746G_Disco.</p></li>
+<li><p>Máy tính được sử dụng Ubuntu 22.04 (dual boot).</p></li>
+</ul>
+</section>
+<section id="cai-dat-phan-mem-squareline-studio">
+<h2>Cài đặt phần mềm SquareLine Studio<a class="headerlink" href="#cai-dat-phan-mem-squareline-studio" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Truy cập <a class="reference external" href="https://squareline.io/downloads">Link</a>.</p></li>
+<li><p><strong>Các bước cài đặt:</strong></p></li>
+</ul>
+<p>Bước 1: Giải nén tệp vừa tải</p>
+<p>Bước 2: Chạy file setup.sh</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Mở terminal truy cập vào thư mục có chứa file setup.sh</p></li>
+<li><p>Chạy các lệnh sau.</p></li>
+</ul>
+</div></blockquote>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">chmod +x setup.sh</span>
+<span class="go">./setup.sh</span>
+</pre></div>
+</div>
+<p><strong>Lưu ý: Nếu xảy ra lỗi thiếu thư viện thì các bạn cài thêm cho máy.</strong></p>
+</section>
+<section id="su-dung-phan-mem-squareline-studio">
+<h2>Sử dụng phần mềm SquareLine Studio<a class="headerlink" href="#su-dung-phan-mem-squareline-studio" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Mở phần mềm SquareLine Studio.</p></li>
+<li><p>Đăng nhập (hoặc đăng ký) tài khoản.</p></li>
+</ul>
+<img alt="alternate text" src="_images/img_11.png" />
+<ul class="simple">
+<li><p>Tạo Project mới.</p></li>
+</ul>
+<img alt="alternate text" src="_images/img_12.png" />
+<ul class="simple">
+<li><p>Export source code sau khi design trên SquareLine Studio</p></li>
+</ul>
+<img alt="alternate text" src="_images/img_13.png" />
+<img alt="alternate text" src="_images/img_14.png" />
+</section>
+<section id="them-source-code-moi-vao-project">
+<h2>Thêm source code mới vào project<a class="headerlink" href="#them-source-code-moi-vao-project" title="Link to this heading"></a></h2>
+<p><strong>Lưu ý: Đổi đường dẫn trong file</strong> <code class="docutils literal notranslate"><span class="pre">ui.h</span></code> <strong>thành</strong> <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;lvgl.h&quot;</span></code>.</p>
+<img alt="alternate text" src="_images/img_15.png" />
+<ul class="simple">
+<li><p>Thêm các thư viện trong file <code class="docutils literal notranslate"><span class="pre">main.c</span></code></p></li>
+</ul>
+<img alt="alternate text" src="_images/img_16.png" />
+<ul class="simple">
+<li><p>Chỉnh sửa file <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> cùng cấp với folder <code class="docutils literal notranslate"><span class="pre">src</span></code> như sau.</p></li>
+</ul>
+<img alt="alternate text" src="_images/img_18.png" />
+<img alt="alternate text" src="_images/img_17.png" />
+</section>
 </section>
 
 
