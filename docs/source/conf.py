@@ -9,7 +9,7 @@
 project = 'Tutorial Zephyr in UBUNTU'
 copyright = '2024, DONGKHOA'
 author = 'DONGKHOA'
-release = 'ver 1.0'
+release = 'ver 1.0.1'
 
 # -- General configuration ---------------------------------------------------
 # -- General configuration
