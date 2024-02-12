@@ -2,4 +2,5 @@ Contents
 ----------
 
 .. toctree::
-   home 
+   tutorial_zephyr_install
+   lvgl
