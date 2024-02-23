@@ -57,6 +57,9 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cau-truc-ve-zephyr-project">Cấu trúc về Zephyr Project</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#buoc-1-khoi-tao-workspace-folder-my-workspace">Bước 1: Khởi tạo workspace folder (<em>my-workspace</em>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-2-chinh-sua-lai-file-set-up-thu-vien-cho-project">Bước 2: Chỉnh sửa lại file set up thư viện cho project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-3-update-thu-vien-cho-project-va-build-flash-trong-project">Bước 3: Update thư viện cho project và build, flash trong project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-3-giai-thich-cac-folder-chinh-co-trong-project">Bước 3: Giải thích các folder chính có trong project</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#guiconfig">Guiconfig</a></li>
@@ -113,15 +116,18 @@
 <li><p><a class="reference internal" href="#cau-truc-ve-zephyr-project" id="id7">Cấu trúc về Zephyr Project</a></p>
 <ul>
 <li><p><a class="reference internal" href="#buoc-1-khoi-tao-workspace-folder-my-workspace" id="id8">Bước 1: Khởi tạo workspace folder (<em>my-workspace</em>)</a></p></li>
+<li><p><a class="reference internal" href="#buoc-2-chinh-sua-lai-file-set-up-thu-vien-cho-project" id="id9">Bước 2: Chỉnh sửa lại file set up thư viện cho project</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-update-thu-vien-cho-project-va-build-flash-trong-project" id="id10">Bước 3: Update thư viện cho project và build, flash trong project</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-giai-thich-cac-folder-chinh-co-trong-project" id="id11">Bước 3: Giải thích các folder chính có trong project</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#guiconfig" id="id9">Guiconfig</a></p></li>
-<li><p><a class="reference internal" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" id="id10">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a></p>
+<li><p><a class="reference internal" href="#guiconfig" id="id12">Guiconfig</a></p></li>
+<li><p><a class="reference internal" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" id="id13">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a></p>
 <ul>
-<li><p><a class="reference internal" href="#buoc-1-cai-dat-openocd" id="id11">Bước 1: Cài đặt openocd</a></p></li>
-<li><p><a class="reference internal" href="#buoc-2-cai-dat-cac-extension-trong-vscode" id="id12">Bước 2: Cài đặt các extension trong vscode</a></p></li>
-<li><p><a class="reference internal" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" id="id13">Bước 3: Thêm các file json để debug được trên vscode</a></p></li>
-<li><p><a class="reference internal" href="#buoc-4-debug" id="id14">Bước 4: Debug</a></p></li>
+<li><p><a class="reference internal" href="#buoc-1-cai-dat-openocd" id="id14">Bước 1: Cài đặt openocd</a></p></li>
+<li><p><a class="reference internal" href="#buoc-2-cai-dat-cac-extension-trong-vscode" id="id15">Bước 2: Cài đặt các extension trong vscode</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" id="id16">Bước 3: Thêm các file json để debug được trên vscode</a></p></li>
+<li><p><a class="reference internal" href="#buoc-4-debug" id="id17">Bước 4: Debug</a></p></li>
 </ul>
 </li>
 </ul>
@@ -324,8 +330,11 @@ hãy xóa thư mục build trong project đó hãy build lại)</em></p>
 west<span class="w"> </span>init<span class="w"> </span>-m<span class="w"> </span>https://github.com/zephyrproject-rtos/example-application<span class="w"> </span>--mr<span class="w"> </span>main<span class="w"> </span>my-workspace
 </pre></div>
 </div>
+</section>
+<section id="buoc-2-chinh-sua-lai-file-set-up-thu-vien-cho-project">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Bước 2: Chỉnh sửa lại file set up thư viện cho project</a><a class="headerlink" href="#buoc-2-chinh-sua-lai-file-set-up-thu-vien-cho-project" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>Sau đó mở thư mục file <code class="docutils literal notranslate"><span class="pre">my-workspace/west.yml</span></code>. Mặc định nó sẽ như sau:</p></li>
+<li><p>Mở thư mục file <code class="docutils literal notranslate"><span class="pre">my-workspace/west.yml</span></code>. Mặc định nó sẽ như sau:</p></li>
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) 2021 Nordic Semiconductor ASA</span>
 <span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
@@ -353,7 +362,12 @@ west<span class="w"> </span>init<span class="w"> </span>-m<span class="w"> </spa
 </div>
 <ul class="simple">
 <li><p>Do ở đẩy sử dụng board STM32F746G_Disco, Nên chỉ cần <code class="docutils literal notranslate"><span class="pre">cmsis</span></code> và <code class="docutils literal notranslate"><span class="pre">hal_stm32</span></code> =&gt; xóa <code class="docutils literal notranslate"><span class="pre">hal_nordic</span></code> (<em>dùng cho board nrf</em>).</p></li>
-<li><p>Tiếp tục chạy command sau:</p></li>
+</ul>
+</section>
+<section id="buoc-3-update-thu-vien-cho-project-va-build-flash-trong-project">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Bước 3: Update thư viện cho project và build, flash trong project</a><a class="headerlink" href="#buoc-3-update-thu-vien-cho-project-va-build-flash-trong-project" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Chạy command sau:</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># update Zephyr modules</span>
 <span class="nb">cd</span><span class="w"> </span>my-workspace
@@ -378,9 +392,10 @@ west<span class="w"> </span>update
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west<span class="w"> </span>flash
 </pre></div>
 </div>
+</section>
+<section id="buoc-3-giai-thich-cac-folder-chinh-co-trong-project">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Bước 3: Giải thích các folder chính có trong project</a><a class="headerlink" href="#buoc-3-giai-thich-cac-folder-chinh-co-trong-project" title="Link to this heading"></a></h3>
 <ul class="simple">
-<li><p>Giải thích các folder chính có trong project:</p>
-<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">boards</span></code>: Chứa các file config dành cho board mà zephyr không hổ trợ sẳn.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">drivers</span></code>: Viết thư viện dành cho các driver chứa có thư viện như button...</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">dts</span></code>: Viết device tree cho chip mà zephyr không hổ trợ sẳn</p></li>
@@ -389,12 +404,10 @@ west<span class="w"> </span>update
 <li><p><code class="docutils literal notranslate"><span class="pre">app</span></code>: Chứa file <em>main.c</em>. folder này có chức năng chính dùng để build project (do có file CMakeLists.txt để
 liên kết với các thư viện của zephyr).</p></li>
 </ul>
-</li>
-</ul>
 </section>
 </section>
 <section id="guiconfig">
-<h2><a class="toc-backref" href="#id9" role="doc-backlink">Guiconfig</a><a class="headerlink" href="#guiconfig" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Guiconfig</a><a class="headerlink" href="#guiconfig" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Thay vì bạn sử dụng file <cite>pri.conf</cite> để config các ngoại vi, chức năng trên zephyr thì bạn có thể dùng gui.</p></li>
 <li><p>Sử dụng lệnh:</p></li>
@@ -405,9 +418,9 @@ liên kết với các thư viện của zephyr).</p></li>
 <img alt="alternate text" src="_images/img_5.png" />
 </section>
 <section id="debug-cho-arm-stm32-su-dung-openocd-vscode">
-<h2><a class="toc-backref" href="#id10" role="doc-backlink">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a><a class="headerlink" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" title="Link to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a><a class="headerlink" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" title="Link to this heading"></a></h2>
 <section id="buoc-1-cai-dat-openocd">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Bước 1: Cài đặt openocd</a><a class="headerlink" href="#buoc-1-cai-dat-openocd" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Bước 1: Cài đặt openocd</a><a class="headerlink" href="#buoc-1-cai-dat-openocd" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Đầu tiên hãy kiểm tra xem máy tính đã có openOCD hay chưa: mở termial và gõ lệnh sau:</p></li>
 </ul>
@@ -440,13 +453,13 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 <p><strong>Tham khảo cách cài đặt:</strong> <a class="reference external" href="https://www.youtube.com/watch?v=FNDp1G0bYoU">OPENOCD</a>.</p>
 </section>
 <section id="buoc-2-cai-dat-cac-extension-trong-vscode">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Bước 2: Cài đặt các extension trong vscode</a><a class="headerlink" href="#buoc-2-cai-dat-cac-extension-trong-vscode" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Bước 2: Cài đặt các extension trong vscode</a><a class="headerlink" href="#buoc-2-cai-dat-cac-extension-trong-vscode" title="Link to this heading"></a></h3>
 <img alt="alternate text" src="_images/img_7.png" />
 <img alt="alternate text" src="_images/img_8.png" />
 <img alt="alternate text" src="_images/img_9.png" />
 </section>
 <section id="buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode">
-<h3><a class="toc-backref" href="#id13" role="doc-backlink">Bước 3: Thêm các file json để debug được trên vscode</a><a class="headerlink" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Bước 3: Thêm các file json để debug được trên vscode</a><a class="headerlink" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Thêm một thư mục .vscode gồm có hai file setting.json và launch.json</p></li>
 <li><p><em>Lưu ý đổi thành đúng tên user mà máy tính các bạn đã cài đặt trên máy.</em></p></li>
@@ -489,7 +502,7 @@ sudo<span class="w"> </span>make<span class="w"> </span>install
 </div>
 </section>
 <section id="buoc-4-debug">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Bước 4: Debug</a><a class="headerlink" href="#buoc-4-debug" title="Link to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Bước 4: Debug</a><a class="headerlink" href="#buoc-4-debug" title="Link to this heading"></a></h3>
 <p><strong>Chọn vào nút màu xanh để bắt đầu debug</strong></p>
 <img alt="alternate text" src="_images/img_10.png" />
 </section>

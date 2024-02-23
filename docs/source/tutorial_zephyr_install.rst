@@ -224,7 +224,10 @@ Bước 1: Khởi tạo workspace folder (*my-workspace*)
     # initialize my-workspace for the example-application (main branch)
     west init -m https://github.com/zephyrproject-rtos/example-application --mr main my-workspace
 
--   Sau đó mở thư mục file ``my-workspace/west.yml``. Mặc định nó sẽ như sau:
+Bước 2: Chỉnh sửa lại file set up thư viện cho project
+---------------------------------------------------------------------------
+
+-   Mở thư mục file ``my-workspace/west.yml``. Mặc định nó sẽ như sau:
 
 .. code-block:: yaml
 
@@ -253,7 +256,10 @@ Bước 1: Khởi tạo workspace folder (*my-workspace*)
 
 -   Do ở đẩy sử dụng board STM32F746G_Disco, Nên chỉ cần ``cmsis`` và ``hal_stm32`` => xóa ``hal_nordic`` (*dùng cho board nrf*).
 
--   Tiếp tục chạy command sau:
+Bước 3: Update thư viện cho project và build, flash trong project
+---------------------------------------------------------------------------
+
+-   Chạy command sau:
 
 .. code-block:: bash
     
@@ -279,15 +285,16 @@ Bước 1: Khởi tạo workspace folder (*my-workspace*)
     
     west flash
 
--   Giải thích các folder chính có trong project:
+Bước 3: Giải thích các folder chính có trong project
+---------------------------------------------------------------------------
 
-    *   ``boards``: Chứa các file config dành cho board mà zephyr không hổ trợ sẳn.
-    *   ``drivers``: Viết thư viện dành cho các driver chứa có thư viện như button...
-    *   ``dts``: Viết device tree cho chip mà zephyr không hổ trợ sẳn
-    *   ``include``: Chứa các file *header*
-    *   ``lib``: Chứa các file *.c*
-    *   ``app``: Chứa file *main.c*. folder này có chức năng chính dùng để build project (do có file CMakeLists.txt để 
-        liên kết với các thư viện của zephyr).
+*   ``boards``: Chứa các file config dành cho board mà zephyr không hổ trợ sẳn.
+*   ``drivers``: Viết thư viện dành cho các driver chứa có thư viện như button...
+*   ``dts``: Viết device tree cho chip mà zephyr không hổ trợ sẳn
+*   ``include``: Chứa các file *header*
+*   ``lib``: Chứa các file *.c*
+*   ``app``: Chứa file *main.c*. folder này có chức năng chính dùng để build project (do có file CMakeLists.txt để 
+    liên kết với các thư viện của zephyr).
 
 
 ---------------------------------------------------------------------------
