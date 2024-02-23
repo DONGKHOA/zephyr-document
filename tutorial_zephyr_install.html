@@ -23,7 +23,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Tìm Kiếm" href="search.html" />
     <link rel="next" title="LVGL" href="lvgl.html" />
-    <link rel="prev" title="Contents" href="index.html" /> 
+    <link rel="prev" title="Home" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -55,7 +55,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#buoc-4-build-mot-project-sample">Bước 4: Build một project sample</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#cau-truc-ve-zephyr-project">Cấu trúc về Zephyr Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cau-truc-ve-zephyr-project">Cấu trúc về Zephyr Project</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-1-khoi-tao-workspace-folder-my-workspace">Bước 1: Khởi tạo workspace folder (<em>my-workspace</em>)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#guiconfig">Guiconfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debug-cho-arm-stm32-su-dung-openocd-vscode">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#buoc-1-cai-dat-openocd">Bước 1: Cài đặt openocd</a></li>
@@ -67,6 +70,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lvgl.html">LVGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kernel_zephyr/thread/index.html">Threads</a></li>
 </ul>
 
         </div>
@@ -95,34 +99,65 @@
              
   <section id="mot-so-huong-dan-ve-zephyr-project-zephyr-os">
 <h1>MỘT SỐ HƯỞNG DẪN VỀ ZEPHYR PROJECT - ZEPHYR OS<a class="headerlink" href="#mot-so-huong-dan-ve-zephyr-project-zephyr-os" title="Permalink to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#yeu-cau-ve-phan-cung" id="id1">Yêu cầu về phần cứng</a></p></li>
+<li><p><a class="reference internal" href="#cac-buoc-cai-dat" id="id2">Các bước cài đặt</a></p>
+<ul>
+<li><p><a class="reference internal" href="#buoc-1-cai-dat-cac-tool-phu-thuoc-cmake-python-devicetree-compiler" id="id3">Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compiler)</a></p></li>
+<li><p><a class="reference internal" href="#buoc-2-cai-moi-truong-ao-va-zephyr-project" id="id4">Bước 2: Cài môi trường ảo và zephyr project</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-cai-zephyr-sdk" id="id5">Bước 3: Cài Zephyr SDK</a></p></li>
+<li><p><a class="reference internal" href="#buoc-4-build-mot-project-sample" id="id6">Bước 4: Build một project sample</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#cau-truc-ve-zephyr-project" id="id7">Cấu trúc về Zephyr Project</a></p>
+<ul>
+<li><p><a class="reference internal" href="#buoc-1-khoi-tao-workspace-folder-my-workspace" id="id8">Bước 1: Khởi tạo workspace folder (<em>my-workspace</em>)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#guiconfig" id="id9">Guiconfig</a></p></li>
+<li><p><a class="reference internal" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" id="id10">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a></p>
+<ul>
+<li><p><a class="reference internal" href="#buoc-1-cai-dat-openocd" id="id11">Bước 1: Cài đặt openocd</a></p></li>
+<li><p><a class="reference internal" href="#buoc-2-cai-dat-cac-extension-trong-vscode" id="id12">Bước 2: Cài đặt các extension trong vscode</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" id="id13">Bước 3: Thêm các file json để debug được trên vscode</a></p></li>
+<li><p><a class="reference internal" href="#buoc-4-debug" id="id14">Bước 4: Debug</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
 <section id="yeu-cau-ve-phan-cung">
-<h2>Yêu cầu về phần cứng<a class="headerlink" href="#yeu-cau-ve-phan-cung" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Yêu cầu về phần cứng</a><a class="headerlink" href="#yeu-cau-ve-phan-cung" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Ubuntu version từ 20 trở lên (khuyến nghị cài dual boot nếu sài máy áo có thể bị lỗi khi flash vào chip).</p></li>
 <li><p>Ổ cứng cấp phát cho ubuntu trên 20GB.</p></li>
+<li><p>Board sử dụng là STM32F746G_Disco.</p></li>
 </ul>
 </section>
 <section id="cac-buoc-cai-dat">
-<h2>Các bước cài đặt<a class="headerlink" href="#cac-buoc-cai-dat" title="Permalink to this heading"></a></h2>
-<p><strong>Lưu ý trước khi cài đặt là đảm bảo mạng kết nối luôn ổn định và máy tính không được mất điện giữa lúc cài
-(đây là ubuntu nên cái gì cũng có thể đi luôn cái ubuntu)</strong></p>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Các bước cài đặt</a><a class="headerlink" href="#cac-buoc-cai-dat" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Lưu ý trước khi cài đặt là đảm bảo mạng kết nối luôn ổn định và máy tính không được mất điện giữa lúc cài
+(đây là ubuntu nên cái gì cũng có thể đi luôn cái ubuntu)</p>
+</div>
 <section id="buoc-1-cai-dat-cac-tool-phu-thuoc-cmake-python-devicetree-compiler">
-<h3>Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compiler)<a class="headerlink" href="#buoc-1-cai-dat-cac-tool-phu-thuoc-cmake-python-devicetree-compiler" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compiler)</a><a class="headerlink" href="#buoc-1-cai-dat-cac-tool-phu-thuoc-cmake-python-devicetree-compiler" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Sử dụng <code class="docutils literal notranslate"><span class="pre">apt</span></code> để cài đặt các tool:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install --no-install-recommends git cmake ninja-build gperf \</span>
-<span class="go">ccache dfu-util device-tree-compiler wget \</span>
-<span class="go">python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \</span>
-<span class="go">make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install --no-install-recommends git cmake ninja-build gperf <span class="se">\</span>
+ccache dfu-util device-tree-compiler wget <span class="se">\</span>
+python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file <span class="se">\</span>
+make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Check lại xem đã cài được chưa:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake --version</span>
-<span class="go">python3 --version</span>
-<span class="go">dtc --version</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake --version
+python3 --version
+dtc --version
 </pre></div>
 </div>
 <ul class="simple">
@@ -131,92 +166,98 @@
 <img alt="alternate text" src="_images/img_1.png" />
 </section>
 <section id="buoc-2-cai-moi-truong-ao-va-zephyr-project">
-<h3>Bước 2: Cài môi trường ảo và zephyr project<a class="headerlink" href="#buoc-2-cai-moi-truong-ao-va-zephyr-project" title="Permalink to this heading"></a></h3>
+<span id="activate-virtual-environment"></span><h3><a class="toc-backref" href="#id4" role="doc-backlink">Bước 2: Cài môi trường ảo và zephyr project</a><a class="headerlink" href="#buoc-2-cai-moi-truong-ao-va-zephyr-project" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Sử dụng <code class="docutils literal notranslate"><span class="pre">apt</span></code> để cài gói <code class="docutils literal notranslate"><span class="pre">venv</span></code> của Python:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install python3-venv</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt install python3-venv
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Tạo môi trường ảo:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m venv ~/zephyrproject/.venv</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3 -m venv ~/zephyrproject/.venv
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Activate môi trường ảo:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">source ~/zephyrproject/.venv/bin/activate</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> ~/zephyrproject/.venv/bin/activate
 </pre></div>
 </div>
-<p><strong>Lưu ý: mỗi khi muốn build hoặc flash zephyr project đều phải sử dụng lệnh này.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Lưu ý: mỗi khi muốn build hoặc flash zephyr project đều phải sử dụng lệnh này.</p>
+</div>
 <ul class="simple">
 <li><p>Cài đặt <code class="docutils literal notranslate"><span class="pre">west</span></code>:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install west</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install west
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Get source code của Zephyr:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">west init ~/zephyrproject</span>
-<span class="go">cd ~/zephyrproject</span>
-<span class="go">west update</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west init ~/zephyrproject
+<span class="nb">cd</span> ~/zephyrproject
+west update
 </pre></div>
 </div>
-<p><strong>Lưu ý: đây là nguồn để học về các hàm sử dụng trong zephyr rất hiệu quả nên hãy cố gắng khai thác hết mức có thể.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Lưu ý: đây là nguồn để học về các hàm sử dụng trong zephyr rất hiệu quả nên hãy cố gắng khai thác hết mức có thể.</p>
+</div>
 <ul class="simple">
 <li><p>Export Zephyr CMake package:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">west zephyr-export</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west zephyr-export
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Cài đặt các requirement:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install -r ~/zephyrproject/zephyr/scripts/requirements.txt</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install -r ~/zephyrproject/zephyr/scripts/requirements.txt
 </pre></div>
 </div>
 </section>
 <section id="buoc-3-cai-zephyr-sdk">
-<h3>Bước 3: Cài Zephyr SDK<a class="headerlink" href="#buoc-3-cai-zephyr-sdk" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Bước 3: Cài Zephyr SDK</a><a class="headerlink" href="#buoc-3-cai-zephyr-sdk" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Tải và verify Zephyr SDK:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~</span>
-<span class="go">wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/zephyr-sdk-0.16.4_linux-x86_64.tar.xz</span>
-<span class="go">wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/sha256.sum | shasum --check --ignore-missing</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/zephyr-sdk-0.16.4_linux-x86_64.tar.xz
+wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/sha256.sum <span class="p">|</span> shasum --check --ignore-missing
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Giải nén tệp vừa tải:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">tar xvf zephyr-sdk-0.16.4_linux-x86_64.tar.xz</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar xvf zephyr-sdk-0.16.4_linux-x86_64.tar.xz
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Cài đặt Zephyr SDK:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd zephyr-sdk-0.16.4</span>
-<span class="go">./setup.sh</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> zephyr-sdk-0.16.4
+./setup.sh
 </pre></div>
 </div>
 </section>
 <section id="buoc-4-build-mot-project-sample">
-<h3>Bước 4: Build một project sample<a class="headerlink" href="#buoc-4-build-mot-project-sample" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Bước 4: Build một project sample</a><a class="headerlink" href="#buoc-4-build-mot-project-sample" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Chọn một project sample:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~</span>
-<span class="go">cd ./zephyrproject/zephyr/samples/basic/blinky</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ~
+<span class="nb">cd</span> ./zephyrproject/zephyr/samples/basic/blinky
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Chọn Board để build:</p></li>
 </ul>
 <p><strong>Các board mà zephyr hổ trở:</strong> <a class="reference external" href="https://docs.zephyrproject.org/latest/boards/index.html#boards">Supported Boards</a>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">west build -p always -b &lt;your-board-name&gt;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west build -p always -b &lt;your-board-name&gt;
 </pre></div>
 </div>
 <p><strong>Nếu bạn thêm lệnh</strong> <code class="docutils literal notranslate"><span class="pre">set(BOARD</span> <span class="pre">&lt;your-board-name&gt;)</span></code> <strong>trong file CMakeLists.txt trong project thì chỉ cần ghi:</strong> <code class="docutils literal notranslate"><span class="pre">west</span> <span class="pre">build</span></code></p>
@@ -225,71 +266,152 @@
 <img alt="alternate text" src="_images/img_3.png" />
 <p><strong>Hãy truy cập vào thư mục đó rồi chỉnh sửa file main.c như sau:</strong> <em>(Lưu ý sau khi thay đổi file main.c
 hãy xóa thư mục build trong project đó hãy build lại)</em></p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">#</span>include &lt;stdio.h&gt;
-<span class="gp">#</span>include &lt;zephyr/kernel.h&gt;
-<span class="gp">#</span>include &lt;zephyr/drivers/gpio.h&gt;
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;zephyr/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;zephyr/drivers/gpio.h&gt;</span><span class="cp"></span>
 
-<span class="go">/* 1000 msec = 1 sec */</span>
-<span class="gp">#</span>define SLEEP_TIME_MS   <span class="m">1000</span>
+<span class="cm">/* 1000 msec = 1 sec */</span><span class="w"></span>
+<span class="cp">#define SLEEP_TIME_MS   1000</span>
 
-<span class="go">/* The devicetree node identifier for the &quot;led0&quot; alias. */</span>
-<span class="gp">#</span>define LED0_NODE DT_ALIAS<span class="o">(</span>led0<span class="o">)</span>
-<span class="go">static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);</span>
+<span class="cm">/* The devicetree node identifier for the &quot;led0&quot; alias. */</span><span class="w"></span>
+<span class="cp">#define LED0_NODE DT_ALIAS(led0)</span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_dt_spec</span><span class="w"> </span><span class="n">led</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIO_DT_SPEC_GET</span><span class="p">(</span><span class="n">LED0_NODE</span><span class="p">,</span><span class="w"> </span><span class="n">gpios</span><span class="p">);</span><span class="w"></span>
 
-<span class="go">int main(void)</span>
-<span class="go">{</span>
-<span class="go">    int ret;</span>
-<span class="go">    bool led_state = true;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">led_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
 
-<span class="go">    if (!gpio_is_ready_dt(&amp;led)) {</span>
-<span class="go">        return 0;</span>
-<span class="go">    }</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">gpio_is_ready_dt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">led</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-<span class="go">    ret = gpio_pin_configure_dt(&amp;led, GPIO_OUTPUT_ACTIVE);</span>
-<span class="go">    if (ret &lt; 0) {</span>
-<span class="go">        return 0;</span>
-<span class="go">    }</span>
+<span class="w">    </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpio_pin_configure_dt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">led</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_OUTPUT_ACTIVE</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-<span class="go">    while (1) {</span>
-<span class="go">        ret = gpio_pin_toggle_dt(&amp;led);</span>
-<span class="go">        if (ret &lt; 0) {</span>
-<span class="go">            return 0;</span>
-<span class="go">        }</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpio_pin_toggle_dt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">led</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ret</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-<span class="go">        led_state = !led_state;</span>
-<span class="go">        printf(&quot;LED state: %s\n&quot;, led_state ? &quot;ON&quot; : &quot;OFF&quot;);</span>
-<span class="go">        k_msleep(SLEEP_TIME_MS);</span>
-<span class="go">    }</span>
-<span class="go">    return 0;</span>
-<span class="go">}</span>
+<span class="w">        </span><span class="n">led_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">led_state</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;LED state: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">led_state</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;ON&quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;OFF&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_msleep</span><span class="p">(</span><span class="n">SLEEP_TIME_MS</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <img alt="alternate text" src="_images/img_4.png" />
 </section>
 </section>
 <section id="cau-truc-ve-zephyr-project">
-<h2>Cấu trúc về Zephyr Project<a class="headerlink" href="#cau-truc-ve-zephyr-project" title="Permalink to this heading"></a></h2>
-<p><strong>Về phần này các bạn coi theo</strong> <a class="reference external" href="https://docs.google.com/presentation/d/12dFrL5vy-qN5w3uh-lv_V1EL9MIDEYXP/edit#slide=id.g2b313a0e26e_0_132">Slides</a> <strong>của mình làm.</strong></p>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Cấu trúc về Zephyr Project</a><a class="headerlink" href="#cau-truc-ve-zephyr-project" title="Permalink to this heading"></a></h2>
+<section id="buoc-1-khoi-tao-workspace-folder-my-workspace">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Bước 1: Khởi tạo workspace folder (<em>my-workspace</em>)</a><a class="headerlink" href="#buoc-1-khoi-tao-workspace-folder-my-workspace" title="Permalink to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Trước khi khởi tạo workspace folder hãy active virtual environment (<a class="reference internal" href="#activate-virtual-environment"><span class="std std-ref">Bước 2: Cài môi trường ảo và zephyr project</span></a>).</p>
+<p>Dung lượng nơi lưu trử  &gt; 1GB.</p>
+</div>
+<ul class="simple">
+<li><p>Chạy command như sau:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize my-workspace for the example-application (main branch)</span>
+west init -m https://github.com/zephyrproject-rtos/example-application --mr main my-workspace
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Sau đó mở thư mục file <code class="docutils literal notranslate"><span class="pre">my-workspace/west.yml</span></code>. Mặc định nó sẽ như sau:</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) 2021 Nordic Semiconductor ASA</span><span class="w"></span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span><span class="w"></span>
+
+<span class="nt">manifest</span><span class="p">:</span><span class="w"></span>
+<span class="nt">self</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">west-commands</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scripts/west-commands.yml</span><span class="w"></span>
+
+<span class="nt">remotes</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zephyrproject-rtos</span><span class="w"></span>
+<span class="w">    </span><span class="nt">url-base</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/zephyrproject-rtos</span><span class="w"></span>
+
+<span class="nt">projects</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zephyr</span><span class="w"></span>
+<span class="w">    </span><span class="nt">remote</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zephyrproject-rtos</span><span class="w"></span>
+<span class="w">    </span><span class="nt">revision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w"></span>
+<span class="w">    </span><span class="nt">import</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># By using name-allowlist we can clone only the modules that are</span><span class="w"></span>
+<span class="w">        </span><span class="c1"># strictly needed by the application.</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name-allowlist</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cmsis</span><span class="w">      </span><span class="c1"># required by the ARM port</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hal_nordic</span><span class="w"> </span><span class="c1"># required by the custom_plank board (Nordic based)</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hal_stm32</span><span class="w">  </span><span class="c1"># required by the nucleo_f302r8 board (STM32 based)</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Do ở đẩy sử dụng board STM32F746G_Disco, Nên chỉ cần <code class="docutils literal notranslate"><span class="pre">cmsis</span></code> và <code class="docutils literal notranslate"><span class="pre">hal_stm32</span></code> =&gt; xóa <code class="docutils literal notranslate"><span class="pre">hal_nordic</span></code> (<em>dùng cho board nrf</em>).</p></li>
+<li><p>Tiếp tục chạy command sau:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># update Zephyr modules</span>
+<span class="nb">cd</span> my-workspace
+west update
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Vào project có trong workspace:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ./example-project
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Build Project:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west build -b <span class="nv">$BOARD</span> app
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Flash vào chip:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west flash
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Giải thích các folder chính có trong project:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">boards</span></code>: Chứa các file config dành cho board mà zephyr không hổ trợ sẳn.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">drivers</span></code>: Viết thư viện dành cho các driver chứa có thư viện như button...</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dts</span></code>: Viết device tree cho chip mà zephyr không hổ trợ sẳn</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include</span></code>: Chứa các file <em>header</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lib</span></code>: Chứa các file <em>.c</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app</span></code>: Chứa file <em>main.c</em>. folder này có chức năng chính dùng để build project (do có file CMakeLists.txt để
+liên kết với các thư viện của zephyr).</p></li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 <section id="guiconfig">
-<h2>Guiconfig<a class="headerlink" href="#guiconfig" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Guiconfig</a><a class="headerlink" href="#guiconfig" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Thay vì bạn sử dụng file <cite>pri.conf</cite> để config các ngoại vi, chức năng trên zephyr thì bạn có thể dùng gui.</p></li>
 <li><p>Sử dụng lệnh:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">west build -t guiconfig</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>west build -t guiconfig
 </pre></div>
 </div>
 <img alt="alternate text" src="_images/img_5.png" />
 </section>
 <section id="debug-cho-arm-stm32-su-dung-openocd-vscode">
-<h2>Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE<a class="headerlink" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Debug cho ARM [STM32]sử dụng OpenOCD + VSCODE</a><a class="headerlink" href="#debug-cho-arm-stm32-su-dung-openocd-vscode" title="Permalink to this heading"></a></h2>
 <section id="buoc-1-cai-dat-openocd">
-<h3>Bước 1: Cài đặt openocd<a class="headerlink" href="#buoc-1-cai-dat-openocd" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Bước 1: Cài đặt openocd</a><a class="headerlink" href="#buoc-1-cai-dat-openocd" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Đầu tiên hãy kiểm tra xem máy tính đã có openOCD hay chưa: mở termial và gõ lệnh sau:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">openocd</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openocd
 </pre></div>
 </div>
 <ul class="simple">
@@ -299,32 +421,32 @@ hãy xóa thư mục build trong project đó hãy build lại)</em></p>
 <ul class="simple">
 <li><p>Nếu không xuất hiện màn hình như trên thì cài openOCD:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt update</span>
-<span class="go">sudo apt upgrade</span>
-<span class="go">git clone https://github.com/openocd-org/openocd.git</span>
-<span class="go">cd openocd</span>
-<span class="go">./bootstrap</span>
-<span class="go">./configure -–prefix=/usr/local –enable-ftdi –enable-stlink</span>
-<span class="go">make</span>
-<span class="go">sudo make install</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt update
+sudo apt upgrade
+git clone https://github.com/openocd-org/openocd.git
+<span class="nb">cd</span> openocd
+./bootstrap
+./configure -–prefix<span class="o">=</span>/usr/local –enable-ftdi –enable-stlink
+make
+sudo make install
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Tìm đường dẫn đến openocde lưu trong máy:</p></li>
 </ul>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">which openocd</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>which openocd
 </pre></div>
 </div>
 <p><strong>Tham khảo cách cài đặt:</strong> <a class="reference external" href="https://www.youtube.com/watch?v=FNDp1G0bYoU">OPENOCD</a>.</p>
 </section>
 <section id="buoc-2-cai-dat-cac-extension-trong-vscode">
-<h3>Bước 2: Cài đặt các extension trong vscode<a class="headerlink" href="#buoc-2-cai-dat-cac-extension-trong-vscode" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Bước 2: Cài đặt các extension trong vscode</a><a class="headerlink" href="#buoc-2-cai-dat-cac-extension-trong-vscode" title="Permalink to this heading"></a></h3>
 <img alt="alternate text" src="_images/img_7.png" />
 <img alt="alternate text" src="_images/img_8.png" />
 <img alt="alternate text" src="_images/img_9.png" />
 </section>
 <section id="buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode">
-<h3>Bước 3: Thêm các file json để debug được trên vscode<a class="headerlink" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Bước 3: Thêm các file json để debug được trên vscode</a><a class="headerlink" href="#buoc-3-them-cac-file-json-de-debug-duoc-tren-vscode" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>Thêm một thư mục .vscode gồm có hai file setting.json và launch.json</p></li>
 <li><p><em>Lưu ý đổi thành đúng tên user mà máy tính các bạn đã cài đặt trên máy.</em></p></li>
@@ -367,7 +489,7 @@ hãy xóa thư mục build trong project đó hãy build lại)</em></p>
 </div>
 </section>
 <section id="buoc-4-debug">
-<h3>Bước 4: Debug<a class="headerlink" href="#buoc-4-debug" title="Permalink to this heading"></a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Bước 4: Debug</a><a class="headerlink" href="#buoc-4-debug" title="Permalink to this heading"></a></h3>
 <p><strong>Chọn vào nút màu xanh để bắt đầu debug</strong></p>
 <img alt="alternate text" src="_images/img_10.png" />
 </section>
@@ -378,7 +500,7 @@ hãy xóa thư mục build trong project đó hãy build lại)</em></p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Contents" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Home" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="lvgl.html" class="btn btn-neutral float-right" title="LVGL" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -1,27 +1,33 @@
-
-
 MỘT SỐ HƯỞNG DẪN VỀ ZEPHYR PROJECT - ZEPHYR OS
 ===========================================================================
+
+.. contents::
+    :local:
+    :depth: 2
+
 
 ---------------------------------------------------------------------------
 Yêu cầu về phần cứng
 ---------------------------------------------------------------------------
 
-- Ubuntu version từ 20 trở lên (khuyến nghị cài dual boot nếu sài máy áo có thể bị lỗi khi flash vào chip).
-- Ổ cứng cấp phát cho ubuntu trên 20GB.
+-   Ubuntu version từ 20 trở lên (khuyến nghị cài dual boot nếu sài máy áo có thể bị lỗi khi flash vào chip).
+-   Ổ cứng cấp phát cho ubuntu trên 20GB.
+-   Board sử dụng là STM32F746G_Disco.
 
 ---------------------------------------------------------------------------
 Các bước cài đặt
 ---------------------------------------------------------------------------
-**Lưu ý trước khi cài đặt là đảm bảo mạng kết nối luôn ổn định và máy tính không được mất điện giữa lúc cài 
-(đây là ubuntu nên cái gì cũng có thể đi luôn cái ubuntu)**
+
+.. note::
+    Lưu ý trước khi cài đặt là đảm bảo mạng kết nối luôn ổn định và máy tính không được mất điện giữa lúc cài 
+    (đây là ubuntu nên cái gì cũng có thể đi luôn cái ubuntu)
 
 Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compiler)
 ---------------------------------------------------------------------------
 
 - Sử dụng ``apt`` để cài đặt các tool:
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt install --no-install-recommends git cmake ninja-build gperf \
     ccache dfu-util device-tree-compiler wget \
@@ -31,7 +37,7 @@ Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compil
 
 - Check lại xem đã cài được chưa:
 
-.. code-block:: console
+.. code-block:: bash
 
     cmake --version
     python3 --version
@@ -42,55 +48,58 @@ Bước 1: Cài đặt các tool phụ thuộc (CMake, Python, Devicetree compil
 .. image:: ../img/img_1.png
    :alt: alternate text
 
+.. _activate_virtual_environment:
+
 Bước 2: Cài môi trường ảo và zephyr project
 ---------------------------------------------------------------------------
 
 - Sử dụng ``apt`` để cài gói ``venv`` của Python:
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt install python3-venv
 
 - Tạo môi trường ảo: 
 
-.. code-block:: console
+.. code-block:: bash
 
     python3 -m venv ~/zephyrproject/.venv
 
-
 - Activate môi trường ảo:
 
-.. code-block:: console
+.. code-block:: bash
 
     source ~/zephyrproject/.venv/bin/activate
 
-**Lưu ý: mỗi khi muốn build hoặc flash zephyr project đều phải sử dụng lệnh này.**
+.. note::
+    Lưu ý: mỗi khi muốn build hoặc flash zephyr project đều phải sử dụng lệnh này.
 
 - Cài đặt ``west``:
 
-.. code-block:: console
+.. code-block:: bash
     
     pip install west
 
 - Get source code của Zephyr:
 
-.. code-block:: console
+.. code-block:: bash
     
     west init ~/zephyrproject
     cd ~/zephyrproject
     west update
 
-**Lưu ý: đây là nguồn để học về các hàm sử dụng trong zephyr rất hiệu quả nên hãy cố gắng khai thác hết mức có thể.**
+.. note::
+    Lưu ý: đây là nguồn để học về các hàm sử dụng trong zephyr rất hiệu quả nên hãy cố gắng khai thác hết mức có thể.
 
 - Export Zephyr CMake package:
 
-.. code-block:: console
+.. code-block:: bash
     
     west zephyr-export
 
 - Cài đặt các requirement:
 
-.. code-block:: console
+.. code-block:: bash
     
     pip install -r ~/zephyrproject/zephyr/scripts/requirements.txt
 
@@ -100,7 +109,7 @@ Bước 3: Cài Zephyr SDK
 
 - Tải và verify Zephyr SDK:
 
-.. code-block:: console
+.. code-block:: bash
 
     cd ~
     wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.4/zephyr-sdk-0.16.4_linux-x86_64.tar.xz
@@ -108,13 +117,13 @@ Bước 3: Cài Zephyr SDK
 
 - Giải nén tệp vừa tải:
 
-.. code-block:: console
+.. code-block:: bash
 
     tar xvf zephyr-sdk-0.16.4_linux-x86_64.tar.xz
 
 - Cài đặt Zephyr SDK:
 
-.. code-block:: console
+.. code-block:: bash
 
     cd zephyr-sdk-0.16.4
     ./setup.sh
@@ -124,7 +133,7 @@ Bước 4: Build một project sample
 
 - Chọn một project sample:
 
-.. code-block:: console
+.. code-block:: bash
 
     cd ~
     cd ./zephyrproject/zephyr/samples/basic/blinky
@@ -133,7 +142,7 @@ Bước 4: Build một project sample
 
 **Các board mà zephyr hổ trở:** `Supported Boards <https://docs.zephyrproject.org/latest/boards/index.html#boards>`_.
 
-.. code-block:: console
+.. code-block:: bash
 
     west build -p always -b <your-board-name>
 
@@ -150,7 +159,7 @@ Bước 4: Build một project sample
 **Hãy truy cập vào thư mục đó rồi chỉnh sửa file main.c như sau:** *(Lưu ý sau khi thay đổi file main.c
 hãy xóa thư mục build trong project đó hãy build lại)*
 
-.. code-block:: console
+.. code-block:: c
 
     #include <stdio.h>
     #include <zephyr/kernel.h>
@@ -198,7 +207,88 @@ hãy xóa thư mục build trong project đó hãy build lại)*
 Cấu trúc về Zephyr Project
 ---------------------------------------------------------------------------
 
-**Về phần này các bạn coi theo** `Slides <https://docs.google.com/presentation/d/12dFrL5vy-qN5w3uh-lv_V1EL9MIDEYXP/edit#slide=id.g2b313a0e26e_0_132>`_ **của mình làm.**
+Bước 1: Khởi tạo workspace folder (*my-workspace*)
+---------------------------------------------------------------------------
+
+.. note::
+    
+    Trước khi khởi tạo workspace folder hãy active virtual environment (:ref:`activate_virtual_environment`).
+    
+    Dung lượng nơi lưu trử  > 1GB.
+
+
+-   Chạy command như sau:
+
+.. code-block:: bash
+
+    # initialize my-workspace for the example-application (main branch)
+    west init -m https://github.com/zephyrproject-rtos/example-application --mr main my-workspace
+
+-   Sau đó mở thư mục file ``my-workspace/west.yml``. Mặc định nó sẽ như sau:
+
+.. code-block:: yaml
+
+    # Copyright (c) 2021 Nordic Semiconductor ASA
+    # SPDX-License-Identifier: Apache-2.0
+
+    manifest:
+    self:
+        west-commands: scripts/west-commands.yml
+
+    remotes:
+        - name: zephyrproject-rtos
+        url-base: https://github.com/zephyrproject-rtos
+
+    projects:
+        - name: zephyr
+        remote: zephyrproject-rtos
+        revision: main
+        import:
+            # By using name-allowlist we can clone only the modules that are
+            # strictly needed by the application.
+            name-allowlist:
+            - cmsis      # required by the ARM port
+            - hal_nordic # required by the custom_plank board (Nordic based)
+            - hal_stm32  # required by the nucleo_f302r8 board (STM32 based)
+
+-   Do ở đẩy sử dụng board STM32F746G_Disco, Nên chỉ cần ``cmsis`` và ``hal_stm32`` => xóa ``hal_nordic`` (*dùng cho board nrf*).
+
+-   Tiếp tục chạy command sau:
+
+.. code-block:: bash
+    
+    # update Zephyr modules
+    cd my-workspace
+    west update
+
+-   Vào project có trong workspace:
+
+.. code-block:: bash
+    
+    cd ./example-project
+
+-   Build Project:
+
+.. code-block:: bash
+    
+    west build -b $BOARD app
+
+-   Flash vào chip:
+
+.. code-block:: bash
+    
+    west flash
+
+-   Giải thích các folder chính có trong project:
+
+    *   ``boards``: Chứa các file config dành cho board mà zephyr không hổ trợ sẳn.
+    *   ``drivers``: Viết thư viện dành cho các driver chứa có thư viện như button...
+    *   ``dts``: Viết device tree cho chip mà zephyr không hổ trợ sẳn
+    *   ``include``: Chứa các file *header*
+    *   ``lib``: Chứa các file *.c*
+    *   ``app``: Chứa file *main.c*. folder này có chức năng chính dùng để build project (do có file CMakeLists.txt để 
+        liên kết với các thư viện của zephyr).
+
 
 ---------------------------------------------------------------------------
 Guiconfig
@@ -208,7 +298,7 @@ Guiconfig
 
 - Sử dụng lệnh:
 
-.. code-block:: console
+.. code-block:: bash
 
     west build -t guiconfig
 
@@ -225,7 +315,7 @@ Bước 1: Cài đặt openocd
 
 - Đầu tiên hãy kiểm tra xem máy tính đã có openOCD hay chưa: mở termial và gõ lệnh sau:
 
-.. code-block:: console
+.. code-block:: bash
 
     openocd
 
@@ -237,7 +327,7 @@ Bước 1: Cài đặt openocd
 
 - Nếu không xuất hiện màn hình như trên thì cài openOCD:
 
-.. code-block:: console
+.. code-block:: bash
 
     sudo apt update
     sudo apt upgrade
@@ -251,7 +341,7 @@ Bước 1: Cài đặt openocd
 
 - Tìm đường dẫn đến openocde lưu trong máy:
 
-.. code-block:: console
+.. code-block:: bash
 
     which openocd
 
