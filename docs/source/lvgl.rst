@@ -1,10 +1,14 @@
 LVGL
 ===========================================================================
 
+.. contents::
+    :local:
+    :depth: 2
 
 ---------------------------------------------------------------------------
 Yêu cầu về phần cứng
 ---------------------------------------------------------------------------
+
 - Hướng dẫn này được chạy trên board STM32F746G_Disco.
 - Máy tính được sử dụng Ubuntu 22.04 (dual boot).
 
@@ -23,12 +27,13 @@ Bước 2: Chạy file setup.sh
     - Mở terminal truy cập vào thư mục có chứa file setup.sh
     - Chạy các lệnh sau.
 
-.. code-block:: console
+.. code-block:: bash
     
     chmod +x setup.sh
     ./setup.sh
 
-**Lưu ý: Nếu xảy ra lỗi thiếu thư viện thì các bạn cài thêm cho máy.**
+.. note::
+   Lưu ý: Nếu xảy ra lỗi thiếu thư viện thì các bạn cài thêm cho máy.
 
 ---------------------------------------------------------------------------
 Sử dụng phần mềm SquareLine Studio
@@ -57,7 +62,8 @@ Sử dụng phần mềm SquareLine Studio
 Thêm source code mới vào project
 ---------------------------------------------------------------------------
 
-**Lưu ý: Đổi đường dẫn trong file** ``ui.h`` **thành** ``#include "lvgl.h"``.
+.. note::
+   **Lưu ý: Đổi đường dẫn trong file** ``ui.h`` **thành** ``#include "lvgl.h"``.
 
 .. image:: ../img/img_15.png
    :alt: alternate text

@@ -12,9 +12,8 @@ author = 'DONGKHOA'
 release = 'ver 1.0.1'
 
 # -- General configuration ---------------------------------------------------
-# -- General configuration
 
-extensions = []
+extensions = ["sphinx_rtd_theme",]
 
 templates_path = ['_templates']
 exclude_patterns = []
