@@ -98,13 +98,16 @@ Tất cả các Thread đều yêu cầu một stack buffer để CPU đẩy ng�
 Tùy thuộc vào config của người dùng sẽ có những ràng buột nhất định mà thread đó
 phải tuân theo:
 
-* Có thể cần thêm bộ nhớ cho các phần quản lý bộ nhớ.
+*   Có thể cần thêm bộ nhớ cho các phần quản lý bộ nhớ.
 
-* Nếu tính nắng phát hiện stack-overflow được enable, một vùng quản lý bộ nhớ bảo vệ nhỏ được đặt trước stack buffer để phát hiện overflow.
+*   Nếu tính nắng phát hiện stack-overflow được enable, một vùng quản lý bộ nhớ bảo vệ 
+    nhỏ được đặt trước stack buffer để phát hiện overflow.
 
-* Nếu không gian người dùng được bật, thì có một vùng như là stack của kernel để xử lý các system calls.
+*   Nếu không gian người dùng được bật, thì có một vùng như là stack của kernel 
+    để xử lý các system calls.
 
-* Nếu không gian nười dùng được bật, thread stack phải có kích thước và căn chỉnh phù hợp sao cho vùng bảo vể có lập trình một cách chính xác.
+*   Nếu không gian nười dùng được bật, thread stack phải có kích thước và căn chỉnh 
+    phù hợp sao cho vùng bảo vể có lập trình một cách chính xác.
 
 Có sự ràng buộc về sự căn chỉnh do đó portable code không thể đơn giản chuyển bộ đệm ký 
 tự tùy ý tới ``k_theard_create()``. Có các macro đặc biệt để khởi tạo các ngăn xếp, có 

@@ -271,7 +271,12 @@ Bước 3: Update thư viện cho project và build, flash trong project
 
 .. code-block:: bash
     
-    cd ./example-project
+    cd ./example-application
+
+..  note::
+    Đây là project mẫu không dành cho tất cả các board, thay đổi lại code 
+    bên trong theo project của mình, có thể xóa những folder không cần trong 
+    project.
 
 -   Build Project:
 

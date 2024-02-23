@@ -181,9 +181,12 @@ Tùy thuộc vào config của người dùng sẽ có những ràng buột nh�
 phải tuân theo:</p>
 <ul class="simple">
 <li><p>Có thể cần thêm bộ nhớ cho các phần quản lý bộ nhớ.</p></li>
-<li><p>Nếu tính nắng phát hiện stack-overflow được enable, một vùng quản lý bộ nhớ bảo vệ nhỏ được đặt trước stack buffer để phát hiện overflow.</p></li>
-<li><p>Nếu không gian người dùng được bật, thì có một vùng như là stack của kernel để xử lý các system calls.</p></li>
-<li><p>Nếu không gian nười dùng được bật, thread stack phải có kích thước và căn chỉnh phù hợp sao cho vùng bảo vể có lập trình một cách chính xác.</p></li>
+<li><p>Nếu tính nắng phát hiện stack-overflow được enable, một vùng quản lý bộ nhớ bảo vệ
+nhỏ được đặt trước stack buffer để phát hiện overflow.</p></li>
+<li><p>Nếu không gian người dùng được bật, thì có một vùng như là stack của kernel
+để xử lý các system calls.</p></li>
+<li><p>Nếu không gian nười dùng được bật, thread stack phải có kích thước và căn chỉnh
+phù hợp sao cho vùng bảo vể có lập trình một cách chính xác.</p></li>
 </ul>
 <p>Có sự ràng buộc về sự căn chỉnh do đó portable code không thể đơn giản chuyển bộ đệm ký
 tự tùy ý tới <code class="docutils literal notranslate"><span class="pre">k_theard_create()</span></code>. Có các macro đặc biệt để khởi tạo các ngăn xếp, có
