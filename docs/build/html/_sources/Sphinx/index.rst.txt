@@ -114,7 +114,7 @@ Bước 4: Sử dụng *Theme RTD* cho Project
 
     pip install sphinx-rtd-theme
 
--   Chỉnh sửa file conf.py thành như sau:
+-   Chỉnh sửa file ``conf.py`` thành như sau:
 
 .. code-block:: python
 
