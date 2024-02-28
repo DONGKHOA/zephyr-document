@@ -7,3 +7,4 @@ Home
    tutorial_zephyr_install.rst
    lvgl.rst
    kernel_zephyr/thread/index.rst
+   Sphinx/index.rst

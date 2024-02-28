@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="vi" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sphinx &mdash; Tài liệu Tutorial Zephyr in UBUNTU ver 1.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=f7e03861"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=71464233"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Tìm Kiếm" href="../search.html" />
+    <link rel="prev" title="Threads" href="../kernel_zephyr/thread/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Tutorial Zephyr in UBUNTU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_zephyr_install.html">MỘT SỐ HƯỞNG DẪN VỀ ZEPHYR PROJECT - ZEPHYR OS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lvgl.html">LVGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kernel_zephyr/thread/index.html">Threads</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sphinx</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cai-dat-sphinx">Cài đặt Sphinx</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-1-cai-dat-sphinx">Bước 1: Cài đặt Sphinx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-2-tao-project">Bước 2: Tạo project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-3-build-project-va-mo-file-html">Bước 3: Build project và mở file HTML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-4-su-dung-theme-rtd-cho-project">Bước 4: Sử dụng <em>Theme RTD</em> cho Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-5-tao-them-file-de-co-the-deploy-tren-github">Bước 5: Tạo thêm file để có thể deploy trên github</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#buoc-6-deploy-tren-github">Bước 6: Deploy trên github</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tutorial Zephyr in UBUNTU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Sphinx</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Sphinx/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sphinx">
+<h1>Sphinx<a class="headerlink" href="#sphinx" title="Link to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#cai-dat-sphinx" id="id1">Cài đặt Sphinx</a></p>
+<ul>
+<li><p><a class="reference internal" href="#buoc-1-cai-dat-sphinx" id="id2">Bước 1: Cài đặt Sphinx</a></p></li>
+<li><p><a class="reference internal" href="#buoc-2-tao-project" id="id3">Bước 2: Tạo project</a></p></li>
+<li><p><a class="reference internal" href="#buoc-3-build-project-va-mo-file-html" id="id4">Bước 3: Build project và mở file HTML</a></p></li>
+<li><p><a class="reference internal" href="#buoc-4-su-dung-theme-rtd-cho-project" id="id5">Bước 4: Sử dụng <em>Theme RTD</em> cho Project</a></p></li>
+<li><p><a class="reference internal" href="#buoc-5-tao-them-file-de-co-the-deploy-tren-github" id="id6">Bước 5: Tạo thêm file để có thể deploy trên github</a></p></li>
+<li><p><a class="reference internal" href="#buoc-6-deploy-tren-github" id="id7">Bước 6: Deploy trên github</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="cai-dat-sphinx">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Cài đặt Sphinx</a><a class="headerlink" href="#cai-dat-sphinx" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Hướng dẫn này được cài đặt và sử dụng trên ubuntu version 22.</p>
+<p><a class="reference external" href="https://www.sphinx-doc.org/en/master/">Documentation</a>.</p>
+</div>
+<section id="buoc-1-cai-dat-sphinx">
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Bước 1: Cài đặt Sphinx</a><a class="headerlink" href="#buoc-1-cai-dat-sphinx" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-sphinx
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Nếu chưa cài đặt python3 thì hãy cài đặt thêm python3.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python3</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">python3-pip</span></code>.</p>
+</div>
+</section>
+<section id="buoc-2-tao-project">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Bước 2: Tạo project</a><a class="headerlink" href="#buoc-2-tao-project" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Tạo một thư mục rồi tiếp tục những bước sau.</p>
+</div>
+<p><strong>Cài đặt môi trường ảo và cài đặt Sphinx cho môi trường ảo</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>sphinx
+</pre></div>
+</div>
+<p><strong>Kiểm tra version của Sphinx</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>--version
+</pre></div>
+</div>
+<p><strong>Tạo project</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Lúc tạo project bằng lệnh dưới đây có thông báo gì thì cứ yes, và
+làm theo hướng dẫn của các thông báo.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-quickstart<span class="w"> </span>docs
+</pre></div>
+</div>
+<p><strong>Sau khi hoàn thành những bước trên sẽ được đươc cái folder trong folder vừa tạo như sau</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.venv
+docs
+├──<span class="w"> </span>build
+├──<span class="w"> </span>make.bat
+├──<span class="w"> </span>Makefile
+└──<span class="w"> </span><span class="nb">source</span>
+<span class="w">    </span>├──<span class="w"> </span>conf.py
+<span class="w">    </span>├──<span class="w"> </span>index.rst
+<span class="w">    </span>├──<span class="w"> </span>_static
+<span class="w">    </span>└──<span class="w"> </span>_templates
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p><strong>Khi sử dụng Sphinx thì viết tài liệu trong file có đuôi rst</strong>.
+Đừng viết ở những file khác như : html, py.</p>
+</div>
+</section>
+<section id="buoc-3-build-project-va-mo-file-html">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Bước 3: Build project và mở file HTML</a><a class="headerlink" href="#buoc-3-build-project-va-mo-file-html" title="Link to this heading"></a></h3>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Trước khi build project hay tải thư viện hãy kiểm tra là đã vào môi trường ảo hay chưa.</p>
+<p>Nếu chưa vào môi trường ảo thì hãy vào môi trường ảo bằng lênh này:
+<code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">.venv/bin/activate</span></code>.</p>
+</div>
+<ul class="simple">
+<li><p>Build project</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-build<span class="w"> </span>-M<span class="w"> </span>html<span class="w"> </span>docs/source/<span class="w"> </span>docs/build/
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mở file HTML</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>google-chrome<span class="w"> </span>docs/build/html/index.html
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Có thể sử dụng trình duyệt khác để mở file html</p>
+</div>
+</section>
+<section id="buoc-4-su-dung-theme-rtd-cho-project">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Bước 4: Sử dụng <em>Theme RTD</em> cho Project</a><a class="headerlink" href="#buoc-4-su-dung-theme-rtd-cho-project" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Tải và cài đặt theme:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-rtd-theme
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Chỉnh sửa file conf.py thành như sau:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration file for the Sphinx documentation builder.</span>
+<span class="c1">#</span>
+<span class="c1"># For the full list of built-in configuration values, see the documentation:</span>
+<span class="c1"># https://www.sphinx-doc.org/en/master/usage/configuration.html</span>
+
+<span class="c1"># -- Project information -----------------------------------------------------</span>
+<span class="c1"># https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;Tutorial Zephyr in UBUNTU&#39;</span>
+<span class="n">copyright</span> <span class="o">=</span> <span class="s1">&#39;2024, DONGKHOA&#39;</span>
+<span class="n">author</span> <span class="o">=</span> <span class="s1">&#39;DONGKHOA&#39;</span>
+<span class="n">release</span> <span class="o">=</span> <span class="s1">&#39;ver 1.0.1&#39;</span>
+
+<span class="c1"># -- General configuration ---------------------------------------------------</span>
+
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sphinx_rtd_theme&quot;</span><span class="p">,]</span>
+
+<span class="n">templates_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_templates&#39;</span><span class="p">]</span>
+<span class="n">exclude_patterns</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">language</span> <span class="o">=</span> <span class="s1">&#39;vi&#39;</span>
+<span class="c1"># -- Options for HTML output -------------------------------------------------</span>
+
+<span class="c1"># The theme to use for HTML and HTML Help pages.  See the documentation for</span>
+<span class="c1"># a list of builtin themes.</span>
+<span class="c1">#</span>
+<span class="n">html_theme</span> <span class="o">=</span> <span class="s1">&#39;sphinx_rtd_theme&#39;</span>
+<span class="n">html_static_path</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_static&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Nhớ chỉnh lại các phần như <code class="docutils literal notranslate"><span class="pre">author</span></code>, <code class="docutils literal notranslate"><span class="pre">project</span></code>, <code class="docutils literal notranslate"><span class="pre">release</span></code>, <code class="docutils literal notranslate"><span class="pre">copyright</span></code></p>
+</div>
+</section>
+<section id="buoc-5-tao-them-file-de-co-the-deploy-tren-github">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Bước 5: Tạo thêm file để có thể deploy trên github</a><a class="headerlink" href="#buoc-5-tao-them-file-de-co-the-deploy-tren-github" title="Link to this heading"></a></h3>
+<p>Tạo file <code class="docutils literal notranslate"><span class="pre">sphinx.yml</span></code> trong thư mục <code class="docutils literal notranslate"><span class="pre">.github/workflows</span></code> <em>(tạo thêm)</em>. Có nội dung như sau:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Sphinx:</span><span class="nv"> </span><span class="s">Render</span><span class="nv"> </span><span class="s">docs&quot;</span>
+
+<span class="nt">on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">push</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="nt">build</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build HTML</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ammaraskar/sphinx-action@master</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload artifacts</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">html-docs</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs/build/html/</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">peaceiris/actions-gh-pages@v3</span>
+<span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.ref == &#39;refs/heads/main&#39;</span>
+<span class="w">    </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+<span class="w">        </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs/build/html</span>
+</pre></div>
+</div>
+<p>Do ở trên có sử dụng theme RTD nên cần phải thêm hai file <code class="docutils literal notranslate"><span class="pre">requirements.in</span></code> và
+<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">requirements.in</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Sphinx</span><span class="o">&gt;=</span><span class="mi">5</span>
+<span class="n">sphinx_rtd_theme</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># This file is autogenerated by pip-compile with python 3.10</span>
+<span class="c1"># To update, run:</span>
+<span class="c1">#</span>
+<span class="c1">#    pip-compile docs/requirements.in</span>
+<span class="c1">#</span>
+<span class="n">alabaster</span><span class="o">==</span><span class="mf">0.7.12</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">babel</span><span class="o">==</span><span class="mf">2.10.3</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">certifi</span><span class="o">==</span><span class="mf">2022.6.15</span>
+    <span class="c1"># via requests</span>
+<span class="n">charset</span><span class="o">-</span><span class="n">normalizer</span><span class="o">==</span><span class="mf">2.1.0</span>
+    <span class="c1"># via requests</span>
+<span class="n">docutils</span><span class="o">==</span><span class="mf">0.20.1</span>
+    <span class="c1"># via</span>
+    <span class="c1">#   sphinx</span>
+    <span class="c1">#   sphinx-rtd-theme</span>
+<span class="n">idna</span><span class="o">==</span><span class="mf">3.3</span>
+    <span class="c1"># via requests</span>
+<span class="n">imagesize</span><span class="o">==</span><span class="mf">1.4.1</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">jinja2</span><span class="o">==</span><span class="mf">3.1.2</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">markupsafe</span><span class="o">==</span><span class="mf">2.1.1</span>
+    <span class="c1"># via jinja2</span>
+<span class="n">packaging</span><span class="o">==</span><span class="mf">21.3</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">pygments</span><span class="o">==</span><span class="mf">2.12.0</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">pyparsing</span><span class="o">==</span><span class="mf">3.0.9</span>
+    <span class="c1"># via packaging</span>
+<span class="n">pytz</span><span class="o">==</span><span class="mf">2022.1</span>
+    <span class="c1"># via babel</span>
+<span class="n">requests</span><span class="o">==</span><span class="mf">2.28.1</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">snowballstemmer</span><span class="o">==</span><span class="mf">2.2.0</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinx</span><span class="o">==</span><span class="mf">5.0.2</span>
+    <span class="c1"># via</span>
+    <span class="c1">#   -r docs/requirements.in</span>
+    <span class="c1">#   sphinx-rtd-theme</span>
+<span class="n">sphinx</span><span class="o">-</span><span class="n">rtd</span><span class="o">-</span><span class="n">theme</span><span class="o">==</span><span class="mf">2.0.0</span>
+    <span class="c1"># via -r docs/requirements.in</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">applehelp</span><span class="o">==</span><span class="mf">1.0.2</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">devhelp</span><span class="o">==</span><span class="mf">1.0.2</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">htmlhelp</span><span class="o">==</span><span class="mf">2.0.0</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">jsmath</span><span class="o">==</span><span class="mf">1.0.1</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">qthelp</span><span class="o">==</span><span class="mf">1.0.3</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">serializinghtml</span><span class="o">==</span><span class="mf">1.1.5</span>
+    <span class="c1"># via sphinx</span>
+<span class="n">urllib3</span><span class="o">==</span><span class="mf">1.26.9</span>
+    <span class="c1"># via requests</span>
+</pre></div>
+</div>
+<p><strong>Project sau khi thêm các file sẽ như sau</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.github
+└──<span class="w"> </span>workflows
+<span class="w">    </span>└──sphinx.yml
+.venv
+docs
+├──<span class="w"> </span>build
+├──<span class="w"> </span>make.bat
+├──<span class="w"> </span>Makefile
+└──<span class="w"> </span><span class="nb">source</span>
+<span class="w">    </span>├──<span class="w"> </span>conf.py
+<span class="w">    </span>├──<span class="w"> </span>index.rst
+<span class="w">    </span>├──<span class="w"> </span>_static
+<span class="w">    </span>└──<span class="w"> </span>_templates
+requirements.txt
+requirements.in
+</pre></div>
+</div>
+<p><strong>Push project lên github.</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Không nên push folder <code class="docutils literal notranslate"><span class="pre">.venv</span></code> lên github. Có thể sử dụng file <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>.</p>
+</div>
+</section>
+<section id="buoc-6-deploy-tren-github">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Bước 6: Deploy trên github</a><a class="headerlink" href="#buoc-6-deploy-tren-github" title="Link to this heading"></a></h3>
+<p>Sau khi push lên github đợi github tạo ra một branch mới tên là <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code> và làm theo hình sau</p>
+<img alt="../_images/deploy.png" class="align-center" src="../_images/deploy.png" />
+<ul class="simple">
+<li><p><strong>Sau khi build xong thì sẽ có link web tạo ra.</strong></p></li>
+</ul>
+<img alt="../_images/build.png" class="align-center" src="../_images/build.png" />
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../kernel_zephyr/thread/index.html" class="btn btn-neutral float-left" title="Threads" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DONGKHOA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

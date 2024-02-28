@@ -222,8 +222,11 @@ mức độ ưu tiên cao hơn.</p>
 <li><p><em>cooperative thread</em> có giá trị ưu tiên âm. Khi trở thành <em>current thread</em>,
 <em>cooperative thread</em> sẽ luôn là <em>current thread</em> cho đến khi nó chuyển sang trạng
 thái <strong>unready</strong>.</p></li>
-<li><p><em>preemptible thread</em> có giá trị ưu tiên không âm.</p></li>
+<li><p><em>preemptible thread</em> có giá trị ưu tiên không âm. Khi trở thành <em>current thread</em>,
+<em>preemptible thread</em> có thể bị thay thế bất kì lúc bởi <em>cooperative thread</em> hoặc
+<em>preemptible thread</em> có độ ưu tiên cao hơn hoặc bằng vào trạng thái <strong>ready</strong>.</p></li>
 </ul>
+<p>Có thể thay đổi mức độ ưu tiên của một thread sau khi nó đã bắt đầu chạy.</p>
 <img alt="../../_images/priorities.svg" class="align-center" src="../../_images/priorities.svg" /></section>
 </section>
 
