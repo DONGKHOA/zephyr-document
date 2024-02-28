@@ -155,7 +155,12 @@ Scheduler phần biệt thành hai loại thread dựa trên mức độ ưu ti�
     *cooperative thread* sẽ luôn là *current thread* cho đến khi nó chuyển sang trạng 
     thái **unready**.
 
-*   *preemptible thread* có giá trị ưu tiên không âm. 
+*   *preemptible thread* có giá trị ưu tiên không âm. Khi trở thành *current thread*, 
+    *preemptible thread* có thể bị thay thế bất kì lúc bởi *cooperative thread* hoặc
+    *preemptible thread* có độ ưu tiên cao hơn hoặc bằng vào trạng thái **ready**.
+
+Có thể thay đổi mức độ ưu tiên của một thread sau khi nó đã bắt đầu chạy. 
+
 
 
 .. image:: img/priorities.svg

@@ -22,6 +22,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Tìm Kiếm" href="../../search.html" />
+    <link rel="next" title="Sphinx" href="../../Sphinx/index.html" />
     <link rel="prev" title="LVGL" href="../../lvgl.html" /> 
 </head>
 
@@ -64,6 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#thread-priorities">Thread Priorities</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../Sphinx/index.html">Sphinx</a></li>
 </ul>
 
         </div>
@@ -222,8 +224,11 @@ mức độ ưu tiên cao hơn.</p>
 <li><p><em>cooperative thread</em> có giá trị ưu tiên âm. Khi trở thành <em>current thread</em>,
 <em>cooperative thread</em> sẽ luôn là <em>current thread</em> cho đến khi nó chuyển sang trạng
 thái <strong>unready</strong>.</p></li>
-<li><p><em>preemptible thread</em> có giá trị ưu tiên không âm.</p></li>
+<li><p><em>preemptible thread</em> có giá trị ưu tiên không âm. Khi trở thành <em>current thread</em>,
+<em>preemptible thread</em> có thể bị thay thế bất kì lúc bởi <em>cooperative thread</em> hoặc
+<em>preemptible thread</em> có độ ưu tiên cao hơn hoặc bằng vào trạng thái <strong>ready</strong>.</p></li>
 </ul>
+<p>Có thể thay đổi mức độ ưu tiên của một thread sau khi nó đã bắt đầu chạy.</p>
 <img alt="../../_images/priorities.svg" class="align-center" src="../../_images/priorities.svg" /></section>
 </section>
 
@@ -232,6 +237,7 @@ thái <strong>unready</strong>.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../../lvgl.html" class="btn btn-neutral float-left" title="LVGL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../Sphinx/index.html" class="btn btn-neutral float-right" title="Sphinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
