@@ -168,20 +168,21 @@ Tạo file ``sphinx.yml`` trong thư mục ``.github/workflows`` *(tạo thêm)*
         permissions:
         contents: write
         steps:
-        - uses: actions/checkout@v4
-        - name: Build HTML
-        uses: ammaraskar/sphinx-action@master
-        - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-            name: html-docs
-            path: docs/build/html/
-        - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
-        with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: docs/build/html
+        -   uses: actions/checkout@v4
+        -   name: Build HTML
+            uses: ammaraskar/sphinx-action@master
+        -   name: Upload artifacts
+            uses: actions/upload-artifact@v4
+            with:
+                name: html-docs
+                path: docs/build/html/
+        -   name: Deploy
+                uses: peaceiris/actions-gh-pages@v3
+                if: github.ref == 'refs/heads/main'
+                with:
+                    github_token: ${{ secrets.GITHUB_TOKEN }}
+                    publish_dir: docs/build/html
+
 
 
 Do ở trên có sử dụng theme RTD nên cần phải thêm hai file ``requirements.in`` và 
