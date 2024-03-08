@@ -1,2 +1,4 @@
 Sphinx>=5
 sphinx_rtd_theme
+sphinx-tabs
+sphinx-copybutton

@@ -13,7 +13,7 @@ release = 'ver 1.0.1'
 
 # -- General configuration ---------------------------------------------------
 
-extensions = ["sphinx_rtd_theme",]
+extensions = ['sphinx_rtd_theme','sphinx_tabs.tabs', 'sphinx_copybutton', ]
 
 templates_path = ['_templates']
 exclude_patterns = []
