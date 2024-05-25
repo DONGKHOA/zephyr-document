@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="vi">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workqueue Thread &mdash; Tài liệu Tutorial Zephyr in UBUNTU ver 1.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/tabs.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Tìm Kiếm" href="../../search.html" />
+    <link rel="next" title="Message queue" href="../message_queue/index.html" />
+    <link rel="prev" title="Threads" href="../thread/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Tutorial Zephyr in UBUNTU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../Sphinx/index.html">Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial_zephyr_install.html">MỘT SỐ HƯỞNG DẪN VỀ ZEPHYR PROJECT - ZEPHYR OS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lvgl.html">LVGL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../thread/index.html">Threads</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Workqueue Thread</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tong-quan">Tổng quan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lifecycle">Lifecycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cach-su-dung-workqueues">Cách sử dụng Workqueues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cach-su-dung-work-item">Cách sử dụng work item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dinh-nghia-va-dieu-khien-workqueues">Định nghĩa và điều khiển Workqueues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lap-lich-cho-delayable-work-item">Lập lịch cho Delayable Work Item</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mot-so-truong-hop-can-su-dung-workqueue">Một số trường hợp cần sử dụng Workqueue</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../message_queue/index.html">Message queue</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Tutorial Zephyr in UBUNTU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Workqueue Thread</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/kernel_zephyr/work_queue_thread/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="workqueue-thread">
+<h1>Workqueue Thread<a class="headerlink" href="#workqueue-thread" title="Permalink to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#tong-quan" id="id1">Tổng quan</a></p></li>
+<li><p><a class="reference internal" href="#lifecycle" id="id2">Lifecycle</a></p></li>
+<li><p><a class="reference internal" href="#cach-su-dung-workqueues" id="id3">Cách sử dụng Workqueues</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cach-su-dung-work-item" id="id4">Cách sử dụng work item</a></p></li>
+<li><p><a class="reference internal" href="#dinh-nghia-va-dieu-khien-workqueues" id="id5">Định nghĩa và điều khiển Workqueues</a></p></li>
+<li><p><a class="reference internal" href="#lap-lich-cho-delayable-work-item" id="id6">Lập lịch cho Delayable Work Item</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#mot-so-truong-hop-can-su-dung-workqueue" id="id7">Một số trường hợp cần sử dụng Workqueue</a></p></li>
+</ul>
+</nav>
+<section id="tong-quan">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Tổng quan</a><a class="headerlink" href="#tong-quan" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><em>Workqueue</em> là một đối tượng trong kernel mà được sử dụng một thread thực
+thi các công việc <em>(work items)</em> theo cơ chế FIFO. Mỗi một công việc được thực
+thi bằng cách gọi hàm đó. <em>Workqueue</em> thường được sử dụng bởi các ngắt và các thread
+có mức độ ưu tiên cao để xử lý các công việc không khẩn cấp sang các thread có mức
+ưu tiên thấp hơn để không ảnh hướng đến thời gian chạy của hệ thống. Ngoài ra nó còn
+được dùng để các hàm init (khởi tạo cho các module khác, do các hàm này thường được
+gọi trong main làm cho <code class="docutils literal notranslate"><span class="pre">CONFIG_MAIN_STACK_SIZE</span></code> phải đủ lớn nhưng điều này không còn
+cần thiết sau khi init xong dẫn đến một vấn đề RAM sẽ bị bỏ phí).</p></li>
+<li><p>Số lượng workqueue chỉ bị giới hạn bởi ram.</p></li>
+</ul>
+</section>
+<section id="lifecycle">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Lifecycle</a><a class="headerlink" href="#lifecycle" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Mỗi work item đều đươc định nghĩa và được chỉ định bới một địa chỉ trong
+vùng nhớ.</p></li>
+<li><p>Một work item được gán cho một <strong>handler function</strong> <em>(là một function được thực thi trong
+work queue thread)</em>.</p></li>
+<li><p>Một delayable work item có đươc lập lịch sau một khoảng thời gian nhất định:</p>
+<ul>
+<li><p>Delayable work item bao gồm một work item tiêu chuẩn và thêm thời gian lập lịch.</p></li>
+<li><p>Sau khi hết thời gian chờ thì kernel sẽ submit work item và thực hiện như bình
+thường.</p></li>
+</ul>
+</li>
+<li><p>Một work item ở trạng thái <strong>running</strong> khi nó được chạy trong workqueue,
+và nó có ở trạng thái <strong>canceling</strong> nếu được yêu cầu cancel trước khi nó
+chạy.</p></li>
+<li><p>Một work item có thể ở nhiều trạng thái:</p>
+<ul>
+<li><p>Chạy trong workqueue.</p></li>
+<li><p>Đã đánh dấu cancelling (bởi vì có thread gọi <code class="docutils literal notranslate"><span class="pre">k_work_cancel_sync()</span></code>,
+và đợi cho đến khi work item được thực hiện xong).</p></li>
+<li><p>Queue chạy trên môt queue khác.</p></li>
+<li><p>Được lập lịch submitted cho một queue (có thể là một queue khác).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="cach-su-dung-workqueues">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Cách sử dụng Workqueues</a><a class="headerlink" href="#cach-su-dung-workqueues" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Dưới đây là cách sử dụng một vài API để sử dung workqueue, tham khảo thêm API
+khác <a class="reference external" href="https://docs.zephyrproject.org/latest/kernel/services/threads/workqueue.html#how-to-use-workqueues">tại đây</a>.</p>
+</div>
+<section id="cach-su-dung-work-item">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Cách sử dụng work item</a><a class="headerlink" href="#cach-su-dung-work-item" title="Permalink to this heading"></a></h3>
+<p>Submit một work item:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work</span><span class="w"> </span><span class="n">work</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="n">device_user</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">print_mess</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work</span><span class="w"> </span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">            </span><span class="n">CONTAINER_OF</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s, %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* initialize name info for a device */</span><span class="w"></span>
+<span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">device_user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dong Khoa&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* initialize work item for print name of device*/</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">print_mess</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* submit work item every after 100ms */</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_work_submit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_busy_wait</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Các thư viện được <code class="docutils literal notranslate"><span class="pre">#include</span></code> vào project:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;zephyr/kernel.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;zephyr/sys/printk.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;string.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>Build và chạy mô phỏng đoạn code trên:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">west</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="o">-</span><span class="n">b</span><span class="w"> </span><span class="n">qemu_x86</span><span class="w"></span>
+<span class="n">west</span><span class="w"> </span><span class="n">build</span><span class="w"> </span><span class="o">-</span><span class="n">t</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Quan trọng</p>
+<p>Nếu sử dụng <code class="docutils literal notranslate"><span class="pre">k_work_submit()</span></code> thì sẽ được chạy trên <em>system queue</em>.</p>
+</div>
+</section>
+<section id="dinh-nghia-va-dieu-khien-workqueues">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Định nghĩa và điều khiển Workqueues</a><a class="headerlink" href="#dinh-nghia-va-dieu-khien-workqueues" title="Permalink to this heading"></a></h3>
+<p>Thư viện được <code class="docutils literal notranslate"><span class="pre">#inlcude</span></code> giống ở phần trên:</p>
+<p>Khởi tạo và bắt đầu cho Workqueue:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define STACK_SIZE 500</span>
+<span class="cp">#define PRIORITY 5</span>
+
+<span class="n">K_THREAD_STACK_DEFINE</span><span class="p">(</span><span class="n">my_stack_area</span><span class="p">,</span><span class="w"> </span><span class="n">STACK_SIZE</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">k_work_q</span><span class="w"> </span><span class="n">my_work_q</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_queue_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_work_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">k_work_queue_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_work_q</span><span class="p">,</span><span class="w"> </span><span class="n">my_stack_area</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">K_THREAD_STACK_SIZEOF</span><span class="p">(</span><span class="n">my_stack_area</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">PRIORITY</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Submit work item vào workqueue:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;zephyr/kernel.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;zephyr/sys/printk.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;string.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#define STACK_SIZE 1024</span>
+<span class="cp">#define PRIORITY 5</span>
+
+<span class="n">K_THREAD_STACK_DEFINE</span><span class="p">(</span><span class="n">my_stack_area</span><span class="p">,</span><span class="w"> </span><span class="n">STACK_SIZE</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">k_work_q</span><span class="w"> </span><span class="n">my_work_q</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work</span><span class="w"> </span><span class="n">work</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="n">device_user</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">print_mess</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work</span><span class="w"> </span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">        </span><span class="n">CONTAINER_OF</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;%s, %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span><span class="w"> </span><span class="c1">// Use printk instead of printf</span>
+<span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;Workqueue example</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* initialize name info for a device */</span><span class="w"></span>
+<span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">device_user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dong Khoa&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* initialize work item for print name of device*/</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">print_mess</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">k_work_queue_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_work_q</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">k_work_queue_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_work_q</span><span class="p">,</span><span class="w"> </span><span class="n">my_stack_area</span><span class="p">,</span><span class="w"></span>
+<span class="w">                        </span><span class="n">K_THREAD_STACK_SIZEOF</span><span class="p">(</span><span class="n">my_stack_area</span><span class="p">),</span><span class="w"></span>
+<span class="w">                        </span><span class="n">PRIORITY</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* submit work item every after 100ms */</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_work_submit_to_queue</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_work_q</span><span class="w"> </span><span class="p">,</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_busy_wait</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="cm">/* Delay to ensure work item execution */</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_sleep</span><span class="p">(</span><span class="n">K_MSEC</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="lap-lich-cho-delayable-work-item">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Lập lịch cho Delayable Work Item</a><a class="headerlink" href="#lap-lich-cho-delayable-work-item" title="Permalink to this heading"></a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;zephyr/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;zephyr/sys/printk.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define STACK_SIZE 1024</span>
+<span class="cp">#define PRIORITY 5</span>
+
+<span class="n">K_THREAD_STACK_DEFINE</span><span class="p">(</span><span class="n">my_stack_area</span><span class="p">,</span><span class="w"> </span><span class="n">STACK_SIZE</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="k">static</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work_delayable</span><span class="w"> </span><span class="n">my_delayed_work</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="n">device_user</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">delayed_work_handler</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">k_work</span><span class="w"> </span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="w"> </span><span class="o">*</span><span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">            </span><span class="n">CONTAINER_OF</span><span class="p">(</span><span class="n">item</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_info</span><span class="p">,</span><span class="w"> </span><span class="n">my_delayed_work</span><span class="p">.</span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;%s, %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_busy_wait</span><span class="p">(</span><span class="mi">100000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_reschedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device</span><span class="o">-&gt;</span><span class="n">my_delayed_work</span><span class="p">,</span><span class="w"> </span><span class="n">K_NO_WAIT</span><span class="p">);</span><span class="w"> </span><span class="c1">// Resubmit the workqueue</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">printk</span><span class="p">(</span><span class="s">&quot;Delayable Work Item example</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Initialize name info for a device */</span><span class="w"></span>
+<span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">device_user</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Dong Khoa&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Initialize delayed work item */</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_init_delayable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">my_delayed_work</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">delayed_work_handler</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Submit the delayed work item to start */</span><span class="w"></span>
+<span class="w">    </span><span class="n">k_work_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">device_user</span><span class="p">.</span><span class="n">my_delayed_work</span><span class="p">,</span><span class="w"> </span><span class="n">K_NO_WAIT</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/* Infinite loop */</span><span class="w"></span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">k_sleep</span><span class="p">(</span><span class="n">K_FOREVER</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Có hai trường hợp sử dụng delayable work item, tùy thuộc vào có gia hạn khi có sự kiến mới
+xảy ra. Ví dụ như là nhận kí từ từ <em>UART</em>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">k_work_schedule()</span></code> (hoặc <code class="docutils literal notranslate"><span class="pre">k_work_schedule_for_queue()</span></code>) lập lịch work thực hiện tại
+một thời điểm nhất định (sau thời gian <code class="docutils literal notranslate"><span class="pre">delay</span></code>). Sử dụng để lấy data sau một khoảng thời gian delay
+kể từ lúc nhận được data chưa xử lý đầu tiên.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">k_work_reschedule()</span></code> (hoặc <code class="docutils literal notranslate"><span class="pre">k_work_reschedule_for_queue()</span></code>). Sử dụng để lấy data sau một khoảng
+thời gian delay kể từ khi nhân được data chưa xử lý cuối cùng.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p><code class="docutils literal notranslate"><span class="pre">k_work_schedule()</span></code> và <code class="docutils literal notranslate"><span class="pre">k_work_reschedule()</span></code> đều có tham số  <code class="docutils literal notranslate"><span class="pre">delay</span></code>.
+Nếu <code class="docutils literal notranslate"><span class="pre">delay</span></code> được truyền vào là <code class="docutils literal notranslate"><span class="pre">K_NO_WAIT</span></code> thì nó sẽ tương tự với
+<code class="docutils literal notranslate"><span class="pre">k_work_submit_to_queue()</span></code>.</p>
+</div>
+</section>
+</section>
+<section id="mot-so-truong-hop-can-su-dung-workqueue">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Một số trường hợp cần sử dụng Workqueue</a><a class="headerlink" href="#mot-so-truong-hop-can-su-dung-workqueue" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Tránh <em>race condition</em></p></li>
+<li><p>Kiểm tra giá trị trả về.</p></li>
+<li><p>Tối ưu hóa.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Ghi chú</p>
+<p>Xem thêm <a class="reference external" href="https://docs.zephyrproject.org/latest/kernel/services/threads/workqueue.html#workqueue-best-practices">best practices</a>.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Quan trọng</p>
+<p>Sử dụng workqueue để trì hoãn quá trình xử lý ngắt phức tạp để ISR có thể chia sẽ dử liệu với thread.
+Điều này cho phép quá trình xử lý liên quan đến ngắt được thực hiện kịp thời mà không ảnh hưởng đến
+khả năng phản hồi của hệ thống với các lần ngắt tiếp theo.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../thread/index.html" class="btn btn-neutral float-left" title="Threads" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../message_queue/index.html" class="btn btn-neutral float-right" title="Message queue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, DONGKHOA.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

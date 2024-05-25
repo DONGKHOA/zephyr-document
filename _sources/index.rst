@@ -9,4 +9,3 @@ Home
    lvgl.rst
    kernel_zephyr/thread/index.rst
    kernel_zephyr/work_queue_thread/index.rst
-   kernel_zephyr/message_queue/index.rst
